@@ -57,16 +57,16 @@ class USBControlTool:
         # On Linux, you can use the following command to enable the USB port
         subprocess.run(['sudo', 'echo', '1', '>', f'/sys{device.sys_path}/authorized'])
 
-    def view_connected_devices(self):
-        print("\nList of connected USB devices:")
-        with open("usb_connections.log", "a") as connections_log:
-            connections_log.write("\n------------------------\n")
-            connection_count = 1
-            for device in self.context.list_all_devices(subsystem='usb'):
-                if device.get('PRODUCT') and device.get('MANUFACTURER'):
-                    print(f"{connection_count}: Manufacturer: {device.get('MANUFACTURER')}, Product: {device.get('PRODUCT')}")
-                    connections_log.write(f"Connection #{connection_count}\nManufacturer: {device.get('MANUFACTURER')}\nProduct: {device.get('PRODUCT')}\n")
-                    connection_count += 1
+   def view_connected_devices(self):
+    print("\nList of connected USB devices:")
+    with open("usb_connections.log", "a") as connections_log:
+        connections_log.write("\n------------------------\n")
+        connection_count = 1
+        for device in self.context.list_devices(subsystem='usb'):
+            if device.get('PRODUCT') and device.get('MANUFACTURER'):
+                print(f"{connection_count}: Manufacturer: {device.get('MANUFACTURER')}, Product: {device.get('PRODUCT')}")
+                connections_log.write(f"Connection #{connection_count}\nManufacturer: {device.get('MANUFACTURER')}\nProduct: {device.get('PRODUCT')}\n")
+                connection_count += 1
 
 def main():
     usb_tool = USBControlTool()
